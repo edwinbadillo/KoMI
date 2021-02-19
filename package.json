@@ -3,16 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.20.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3"
+    "react-hook-form": "^6.6.0",
+    "react-scripts": "3.4.3",
+    "react-styled-flexboxgrid": "^3.2.1",
+    "rewire": "^5.0.0",
+    "styled-components": "^5.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "node ./scripts/build-non-split.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
