@@ -61,3 +61,8 @@ query ($id: Int, $page: Int, $perPage: Int, $search: String, $type: MediaType) {
   }
 }
 `;
+
+export const ANILIST = 'ANILIST';
+export const MAL = 'MY_ANIME_LIST';
+export const MANGAUPDATES = 'MANGAUPDATES';
+export const GLOBAL = 'GLOBAL';

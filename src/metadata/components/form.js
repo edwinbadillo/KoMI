@@ -12,12 +12,23 @@ const MetadataModal = (props) => {
 
   const { control, handleSubmit, errors, reset, getValues } = useForm({ defaultValues });
 
-  console.log(errors);
+  React.useEffect(() => {
+    props.setFormData({
+      metadata: {
+        reset,
+        getValues,
+        errors,
+        handleSubmit,
+      }
+    });
+  }, [])
 
-  setReset(reset)
+
+  console.log(errors);
 
   const fetchData = () => {
     const title = getValues('title'); // "test-input"
+    props.search({ title });
     props.fetchData(title);
   }
 
@@ -28,7 +39,7 @@ const MetadataModal = (props) => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={props.updateMetadata}>
 
         <div style={{ position: 'relative' }}>
           <Controller
@@ -117,20 +128,20 @@ const MetadataModal = (props) => {
         <Row>
           <Col xs={6}>
 
-        <Controller
-          as={TextField}
-          name="publisher"
-          label="Publisher"
-          placeholder="Publisher"
-          control={control}
+            <Controller
+              as={TextField}
+              name="publisher"
+              label="Publisher"
+              placeholder="Publisher"
+              control={control}
 
-          variant="filled"
-          style={textFieldStyle}
-          inputProps={{
-            readOnly: readOnly.publisher,
-          }}
+              variant="filled"
+              style={textFieldStyle}
+              inputProps={{
+                readOnly: readOnly.publisher,
+              }}
 
-        />
+            />
           </Col>
           <Col xs={6}>
             <Controller

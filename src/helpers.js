@@ -47,7 +47,10 @@ export const getSeries = (search, list) => {
   return series;
 };
 
-  export const fetchAnilistData = (search, cb, update) => {
+  export const fetchAnilistData = (title, cb, update) => {
+    const titleElement = document.querySelector('.v-main__wrap .v-toolbar__content .v-toolbar__title span')
+    const search = title || (titleElement && titleElement.innerText) || '';// a.innerText
+
 
     const anilistRequest = axios({
       method: 'post',
@@ -107,3 +110,70 @@ export const getSeries = (search, list) => {
       }
     });
   }
+
+  export const getDefaultValues = (anilistData) => {
+    const { closest = {}, existingMetadata = {} } = (anilistData || {});
+    let tags;
+    let genres;
+    let status;
+  
+    // Tags Logic
+    if (existingMetadata.tagsLock && window.komga.enforceLocks) {
+      tags = existingMetadata.tags || []
+    } else {
+      const aniListTags = (closest.tags || []).map((tagObj) => tagObj.name);
+      tags = [...new Set([...(existingMetadata.tags || []), ...(aniListTags || [])])]
+    }
+  
+    // Genres Logic
+    if (existingMetadata.genresLock && window.komga.enforceLocks) {
+      genres = existingMetadata.genres;
+    } else {
+      genres = [...new Set([...(existingMetadata.genres || []), ...(closest.genres || [])])]
+    }
+  
+    // Status Logic
+    if (existingMetadata.statusLock && window.komga.enforceLocks) {
+      status = existingMetadata.status;
+    } else {
+      // Map Anilist
+      switch (closest.status) {
+        case 'FINISHED':
+          status = 'ENDED'
+          break;
+        case 'RELEASING':
+          status = 'ONGOING'
+          break;
+        case 'ABANDONED': // Anilist does not handle this.
+          status = 'ABANDONED'
+          break;
+        case 'HIATUS': // Anilist does not handle this.
+          status = 'HIATUS'
+          break;
+        default:
+          status = existingMetadata.status;
+          break;
+      }
+    }
+  
+    // Not gonna do a full decode, do not trust anilist and don't care that much to do a full implementation for little gain
+    let summary = existingMetadata.summaryLock && window.komga.enforceLocks ? existingMetadata.summary : closest.description || existingMetadata.summary;
+    if (summary) {
+      summary = summary.replace(/<br>/gi, '\n');
+      summary = summary.replace(/<b>|<\/b>|<i>|<\/i>/gi, '');
+    }
+  
+    const defaultValues = {
+      title: existingMetadata.title,
+      sortTitle: existingMetadata.titleSort,
+      summary,
+      status,
+      publisher: existingMetadata.publisherLock && window.komga.enforceLocks ? existingMetadata.publisher : closest.publisher || existingMetadata.publisher,
+      genres,
+      tags,
+      language: existingMetadata.languageLock && window.komga.enforceLocks ? existingMetadata.language : window.komga.defaultLanguage || existingMetadata.language,
+      ageRating: existingMetadata.ageRating,
+    };
+    return defaultValues;
+  };
+  

@@ -1,16 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './js/App';
+import { Provider } from 'react-redux';
+import 'react-app-polyfill/stable';
+import 'regenerator-runtime/runtime';
+import configureStore from './store'
+import App from './app';
+
+const store = configureStore();
+
 
 window.komga = window.komga || {};
 
 const initialize = () => {
   const parentElement = document.querySelector('.v-main__wrap .v-toolbar__content')
-  if (parentElement && window.location.href.startsWith(`${window.location.origin}/series`)) {
+  if (parentElement && window.location.href.startsWith(`${window.location.origin}`)) {
     const element = document.createElement('div');
     element.id = 'mangaScrapper'
     parentElement.appendChild(element);
-    ReactDOM.render(<App />, element);
+    ReactDOM.render(<Provider store={store}><App /></Provider>, element);
     clearInterval(window.komga.mountInterval);
     const url = window.location.href;
 
