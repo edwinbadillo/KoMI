@@ -1,10 +1,37 @@
 import axios from 'axios';
+import { anilistQuery } from '../constants';
 
-export const updateMetadata = (data) => {
-  return axios({
-    method: 'patch',
-    url: `${window.location.origin}/api/v1${window.location.pathname}/metadata`,
-    // url: 'https://run.mocky.io/v3/f304e0dd-e722-4a81-a031-26d899586972',
-    data,
-  })
+const isDevServer = process?.env?.NODE_ENV === 'development';
+
+const komgaApiUrl = `${window.location.origin}/api/v1${window.location.pathname}`;
+
+const komgaDevUrls = {
+  metaData: 'https://run.mocky.io/v3/f304e0dd-e722-4a81-a031-26d899586972',
 };
+
+export const updateMetadata = (data) => axios({
+  method: 'patch',
+  url: isDevServer ? komgaDevUrls.metaData : `${komgaApiUrl}/metadata`,
+  data,
+});
+
+export const searchAnlist = (search) => (
+  axios({
+    method: 'post',
+    url: 'https://graphql.anilist.co',
+    data: {
+      query: anilistQuery,
+      variables: {
+        search,
+        page: 1,
+        perPage: 30,
+        type: 'MANGA',
+      },
+    },
+  })
+);
+
+export const getExistingMetadata = () => (axios({
+  method: 'get',
+  url: isDevServer ? komgaDevUrls.metaData : komgaApiUrl,
+}));

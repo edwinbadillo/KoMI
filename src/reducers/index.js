@@ -9,10 +9,10 @@ const initialState = {
     show: false,
     type: null,
   },
-  currentMatch: 0,
-  searchResults: null,
+  selectedSeries: 0,
+  searchResults: [],
+  existingMetadata: {},
 };
-
 
 const loaderStatus = (state = initialState.loaderStatus, action) => {
   switch (action.type) {
@@ -45,12 +45,11 @@ const modalStatus = (state = initialState.modalStatus, action) => {
   }
 };
 
-
 const existingMetadata = (state = {}, action) => {
   switch (action.type) {
     case 'UPDATE_EXISTING_METADATA':
-      return action?.data.existingMetadata;
-    case 'CLEAR_EXISTING_METADATAL':
+      return action?.data;
+    case 'CLEAR_EXISTING_METADATA':
     case 'CLEAR_ALL':
       return initialState.existingMetadata;
     default:
@@ -58,25 +57,22 @@ const existingMetadata = (state = {}, action) => {
   }
 };
 
-const currentMatch = (state = initialState.currentMatch, action) => {
+const selectedSeries = (state = {}, action) => {
   switch (action.type) {
-    case 'UPDATE_CURRENT_MATCH':
-      return action?.data.match;
-    case 'CLEAR_CURRENT_MATCH':
+    case 'UPDATE_SELECTED_SERIES':
+      return action?.data;
+    case 'CLEAR_SELECTED_SERIES':
     case 'CLEAR_ALL':
-      return initialState.currentMatch;
+      return initialState.selectedSeries;
     default:
       return state;
   }
 };
 
-const searchResults = (state = null, action) => {
+const searchResults = (state = [], action) => {
   switch (action.type) {
     case 'UPDATE_SEARCH_RESULTS':
-      return {
-        type: action?.data?.type,
-        results: action?.data?.results,
-      };
+      return action?.data;
     case 'CLEAR_SEARCH_RESULTS':
     case 'CLEAR_ALL':
       return initialState.searchResults;
@@ -95,13 +91,13 @@ const formData = (state = {}, action) => {
     default:
       return state;
   }
-}
+};
 
 const rootReducer = combineReducers({
   loaderStatus,
   modalStatus,
   existingMetadata,
-  currentMatch,
+  selectedSeries,
   searchResults,
   formData,
 });

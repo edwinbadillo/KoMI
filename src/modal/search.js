@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -28,13 +29,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SearchInputBase(props) {
   const classes = useStyles();
-console.log(props);
+  const { variant } = props;
   return (
     <Paper component="form" className={classes.root}>
       <InputBase
         className={classes.input}
         inputProps={{ ...props }}
-        variant={props.variant}
+        variant={variant}
       />
       <Divider className={classes.divider} orientation="vertical" />
       <IconButton type="submit" className={classes.iconButton} aria-label="search">
@@ -43,3 +44,11 @@ console.log(props);
     </Paper>
   );
 }
+
+SearchInputBase.propTypes = {
+  variant: PropTypes.string,
+};
+
+SearchInputBase.defaultProps = {
+  variant: 'filled',
+};

@@ -62,7 +62,10 @@ query ($id: Int, $page: Int, $perPage: Int, $search: String, $type: MediaType) {
 }
 `;
 
-export const ANILIST = 'ANILIST';
+export const AL = 'ANILIST';
 export const MAL = 'MY_ANIME_LIST';
-export const MANGAUPDATES = 'MANGAUPDATES';
+export const MU = 'MANGA_UPDATES';
+export const MANGADEX = 'MANGADEX';
 export const GLOBAL = 'GLOBAL';
+
+export const KOMGA_METADATA_URL = '';

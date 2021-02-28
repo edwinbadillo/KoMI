@@ -1,8 +1,15 @@
-import { all, call, put, takeLatest, select } from 'redux-saga/effects'
-import { updateLoaderStatus, closeModal } from '../actions';
+import {
+  all, call, put, takeLatest, select,
+} from 'redux-saga/effects';
+import * as actions from '../actions';
+
 import * as CONSTANTS from '../constants';
 import * as apis from '../apis';
 import * as selectors from '../selectors';
+import * as helpers from '../helpers';
+
+import { getExistingMetadata, searchAnlist } from '../apis';
+import { getAnilistSeriesMatch } from '../helpers';
 
 function* updateMetadata() {
   try {
@@ -33,7 +40,7 @@ function* updateMetadata() {
         tagsLock: window.komga.newLockValue,
         titleLock: window.komga.newLockValue,
         titleSortLock: window.komga.newLockValue,
-        summaryLock: window.komga.newLockValue
+        summaryLock: window.komga.newLockValue,
       };
 
       if (typeof data.genres === 'string') {
@@ -48,56 +55,126 @@ function* updateMetadata() {
     }
 
     // Set Loader
-    yield put(updateLoaderStatus({
+    yield put(actions.updateLoaderStatus({
       show: true,
       type: CONSTANTS.GLOBAL,
     }));
 
-    yield call(apis.updateMetadata, data); //API Call
-    yield put(closeModal())
+    yield call(apis.updateMetadata, data); // API Call
+    yield put(actions.closeModal());
     window.location.reload();
   } catch (error) {
     console.log(error);
   }
 }
 
-function* search(action) {
-
+function* anilistSearch({ title, update }) {
+  // Search series in Anilist
   try {
-    const titleElement = document.querySelector('.v-main__wrap .v-toolbar__content .v-toolbar__title span')
+    const titleElement = document.querySelector('.v-main__wrap .v-toolbar__content .v-toolbar__title span');
+    const searchTitle = title || (titleElement && titleElement.innerText) || '';// a.innerText
+
+    const [anilistResponse, komgaResponse] = yield Promise.all([
+      searchAnlist(searchTitle),
+      getExistingMetadata(),
+    ]);
+
+    let list;
+    let seriesMedia;
+    if (anilistResponse.status === 200) {
+      list = anilistResponse?.data?.data?.Page?.media;
+      seriesMedia = getAnilistSeriesMatch(searchTitle, list);
+      if (seriesMedia) {
+        seriesMedia.fetchDate = new Date().toLocaleString(undefined, {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        });
+      }
+    }
+
+    yield put(actions.openModal(CONSTANTS.AL));
+    yield put(actions.updateSearchResults(list));
+    yield put(actions.updateExistingMetadata(komgaResponse.data.metadata));
+    yield put(actions.updateSelectedSeries(seriesMedia));
+    if (update) {
+      const metadaForm = yield select(selectors.selectMetadataForm);
+      metadaForm.reset(helpers.getDefaultValues({
+        selectedSeries: seriesMedia,
+        existingMetadata: komgaResponse.data.metadata,
+      }));
+    }
+
+    //   // Finish and return
+    //   cb({
+    //     search,
+    //     list,
+    //     closest: seriesMedia,
+    //     existingMetadata: komgaResponse.data.metadata,
+    //   }, update);
+
+    //   // use/access the results
+    // })).catch((error) => {
+    //   console.log(error);
+    //   // Failure
+    //   if (cb) {
+    //     cb(null);
+    //   }
+    // });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function* malSearch() {
+  // Search series in My Anime List
+}
+
+function* mangaUpdatesSearch() {
+  // Search series in Manga Updates
+}
+
+function* mangadexSearch() {
+  // Search series in Mangadex
+}
+
+function* search(action) {
+  try {
+    const titleElement = document.querySelector('.v-main__wrap .v-toolbar__content .v-toolbar__title span');
     const title = action?.data?.title || (titleElement && titleElement.innerText) || '';// a.innerText
 
-    console.log('Search =>', title)
-
     // Show Loader
-    yield put(updateLoaderStatus({
+    yield put(actions.updateLoaderStatus({
       show: true,
       type: action.data.title ? action.data.type : CONSTANTS.GLOBAL,
     }));
 
-    if (action.data.type === CONSTANTS.ANILIST) {
-      yield call(anilistSearch, title)
-    } else if (action.data.type === CONSTANTS.MAL) {
-      yield call(malSearch, title)
+    switch (action.data.type) {
+      case CONSTANTS.AL:
+        yield call(anilistSearch, { title });
+        break;
+      case CONSTANTS.MAL:
+        yield call(malSearch, { title });
+        break;
+      case CONSTANTS.MU:
+        yield call(mangaUpdatesSearch, { title });
+        break;
+      case CONSTANTS.MANGADEX:
+        yield call(mangadexSearch, { title });
+        break;
+
+      default:
+        break;
     }
 
     // Hide Loader
-    yield put(updateLoaderStatus({
+    yield put(actions.updateLoaderStatus({
       show: false,
       type: action?.data?.type,
     }));
-
   } catch (error) {
-
+    console.error(error);
   }
-}
-
-function* anilistSearch() {
-
-}
-
-function* malSearch() {
-
 }
 
 export function* actionWatcher() {
