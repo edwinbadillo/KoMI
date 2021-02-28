@@ -35,3 +35,8 @@ export const getExistingMetadata = () => (axios({
   method: 'get',
   url: isDevServer ? komgaDevUrls.metaData : komgaApiUrl,
 }));
+
+export const searchKitsu = (search) => (axios({
+  method: 'get',
+  url: `https://kitsu.io/api/edge/manga?filter[text]=${search}&page[limit]=5`,
+}));

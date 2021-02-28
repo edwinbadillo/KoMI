@@ -8,9 +8,6 @@ import * as apis from '../apis';
 import * as selectors from '../selectors';
 import * as helpers from '../helpers';
 
-import { getExistingMetadata, searchAnlist } from '../apis';
-import { getAnilistSeriesMatch } from '../helpers';
-
 function* updateMetadata() {
   try {
     const existingMetadata = yield select(selectors.selectExistingMetadata);
@@ -64,7 +61,7 @@ function* updateMetadata() {
     yield put(actions.closeModal());
     window.location.reload();
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
@@ -75,15 +72,15 @@ function* anilistSearch({ title, update }) {
     const searchTitle = title || (titleElement && titleElement.innerText) || '';// a.innerText
 
     const [anilistResponse, komgaResponse] = yield Promise.all([
-      searchAnlist(searchTitle),
-      getExistingMetadata(),
+      apis.searchAnlist(searchTitle),
+      apis.getExistingMetadata(),
     ]);
 
     let list;
     let seriesMedia;
     if (anilistResponse.status === 200) {
       list = anilistResponse?.data?.data?.Page?.media;
-      seriesMedia = getAnilistSeriesMatch(searchTitle, list);
+      seriesMedia = helpers.getAnilistSeriesMatch(searchTitle, list);
       if (seriesMedia) {
         seriesMedia.fetchDate = new Date().toLocaleString(undefined, {
           month: 'short',
@@ -126,6 +123,50 @@ function* anilistSearch({ title, update }) {
   }
 }
 
+function* kituSearch({ title, update }) {
+  // Search series in Anilist
+  try {
+    const titleElement = document.querySelector('.v-main__wrap .v-toolbar__content .v-toolbar__title span');
+    const searchTitle = title || (titleElement && titleElement.innerText) || '';// a.innerText
+
+    const [kitsuResponse, komgaResponse] = yield Promise.all([
+      apis.searchKitsu(searchTitle),
+      apis.getExistingMetadata(),
+    ]);
+
+    let list;
+    let seriesMedia;
+    console.log(kitsuResponse);
+    return;
+    // eslint-disable-next-line no-unreachable
+    if (kitsuResponse.status === 200) {
+      list = helpers.mapKitsuSearch(kitsuResponse?.data?.data);
+      seriesMedia = helpers.getAnilistSeriesMatch(searchTitle, list);
+      if (seriesMedia) {
+        seriesMedia.fetchDate = new Date().toLocaleString(undefined, {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        });
+      }
+    }
+
+    yield put(actions.openModal(CONSTANTS.AL));
+    yield put(actions.updateSearchResults(list));
+    yield put(actions.updateExistingMetadata(komgaResponse.data.metadata));
+    yield put(actions.updateSelectedSeries(seriesMedia));
+    if (update) {
+      const metadaForm = yield select(selectors.selectMetadataForm);
+      metadaForm.reset(helpers.getDefaultValues({
+        selectedSeries: seriesMedia,
+        existingMetadata: komgaResponse.data.metadata,
+      }));
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 function* malSearch() {
   // Search series in My Anime List
 }
@@ -152,6 +193,9 @@ function* search(action) {
     switch (action.data.type) {
       case CONSTANTS.AL:
         yield call(anilistSearch, { title });
+        break;
+      case CONSTANTS.KITSU:
+        yield call(kituSearch, { title });
         break;
       case CONSTANTS.MAL:
         yield call(malSearch, { title });

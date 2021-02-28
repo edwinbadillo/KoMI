@@ -1,6 +1,3 @@
-import axios from 'axios';
-import { getExistingMetadata, searchAnlist } from './apis';
-
 export const getCookie = (name) => {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -117,3 +114,34 @@ export const getDefaultValues = (data) => {
   };
   return defaultValues;
 };
+
+export const mapKitsuSearch = (kitsuList) => kitsuList.map((series) => ({
+  id: series.id,
+  title: {
+    romaji: series?.attributes?.titles?.en_jp,
+    english: series?.attributes?.titles?.en || series?.attributes?.titles?.en_us,
+    native: series?.attributes?.titles?.ja_jp,
+  },
+  type: 'MANGA',
+  description:series?.attributes?.description || series?.attributes?.synopsis,
+  status: 'CANCELLED', // Map it
+  // averageScore: 62,
+  // meanScore: 65,
+  // startDate: { year: 2013, month: 5, day: 9 },
+  // endDate: { year: 2019, month: 7, day: 9 },
+  // chapters: 36,
+  // volumes: 7,
+  // countryOfOrigin: 'JP',
+  // isLicensed: true,
+  // source: null,
+  coverImage: {
+    extraLarge: 'https://s4.anilist.co/file/anilistcdn/media/manga/cover/large/bx81315-FI88avN4NI9c.jpg',
+    large: 'https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx81315-FI88avN4NI9c.jpg',
+    medium: 'https://s4.anilist.co/file/anilistcdn/media/manga/cover/small/bx81315-FI88avN4NI9c.jpg',
+  },
+  genres: ['Action', 'Adventure', 'Comedy', 'Ecchi', 'Fantasy', 'Mecha'], // make call
+  synonyms: ['Twelve Beast'], // generate this.
+  // siteUrl: 'https://anilist.co/manga/81315',
+  tags: [{ name: 'Shounen' }, { name: 'Monster Girl' }, { name: 'Isekai' }, { name: 'War' }, { name: 'Harem' }, { name: 'Centaur' }, { name: 'Mermaid' }], //no tagus, maybe create checklist?
+  // staff: { edges: [{ role: 'Story & Art', node: { name: { full: 'Takemaru Inui' } } }] },
+}));

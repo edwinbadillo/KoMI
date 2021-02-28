@@ -41,6 +41,15 @@
       "ecmaVersion": 2020
     },
     "rules": {
+      "no-console": [
+        1,
+        {
+          "allow": [
+            "warn",
+            "error"
+          ]
+        }
+      ],
       "react/jsx-filename-extension": [
         1,
         {

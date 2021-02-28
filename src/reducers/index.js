@@ -30,7 +30,6 @@ const loaderStatus = (state = initialState.loaderStatus, action) => {
 };
 
 const modalStatus = (state = initialState.modalStatus, action) => {
-  console.log('action => ', action);
   switch (action.type) {
     case 'OPEN_MODAL':
       return {

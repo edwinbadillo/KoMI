@@ -66,6 +66,7 @@ export const AL = 'ANILIST';
 export const MAL = 'MY_ANIME_LIST';
 export const MU = 'MANGA_UPDATES';
 export const MANGADEX = 'MANGADEX';
+export const KITSU = 'KITSU';
 export const GLOBAL = 'GLOBAL';
 
 export const KOMGA_METADATA_URL = '';
