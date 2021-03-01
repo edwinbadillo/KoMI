@@ -16,13 +16,13 @@ function App() {
   const isFetching = loaderStatus.show && loaderStatus.type === CONSTANTS.KITSU;
 
   const fetchData = () => {
-    dispatch(search({ type: CONSTANTS.KITSU }));
+    dispatch(search({ type: CONSTANTS.KITSU, initial: true }));
   };
 
   const buttonStyle = {
     position: 'absolute',
-    right: 21,
-    top: 12,
+    right: 5,
+    top: 5,
   };
 
   return (
@@ -33,8 +33,8 @@ function App() {
         onClick={fetchData}
       >
         <Icon aria-hidden="true" />
+        {isFetching && <CircularProgress style={buttonStyle} aria-hidden="true" />}
       </button>
-      {isFetching && <CircularProgress style={buttonStyle} />}
     </>
   );
 }

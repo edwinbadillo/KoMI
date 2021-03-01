@@ -19,7 +19,7 @@ const loaderStatus = (state = initialState.loaderStatus, action) => {
     case 'LOADER_UPDATE':
       return {
         show: action?.data?.show || false,
-        type: action?.data?.type || 'GLOBAL',
+        type: action?.data?.type || 'SEARCH',
       };
     case 'LOADER_CLEAR':
     case 'CLEAR_ALL':
@@ -59,7 +59,7 @@ const existingMetadata = (state = {}, action) => {
 const selectedSeries = (state = {}, action) => {
   switch (action.type) {
     case 'UPDATE_SELECTED_SERIES':
-      return action?.data;
+      return action?.series;
     case 'CLEAR_SELECTED_SERIES':
     case 'CLEAR_ALL':
       return initialState.selectedSeries;

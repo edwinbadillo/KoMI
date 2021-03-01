@@ -4,25 +4,18 @@ import { useDispatch, shallowEqual, useSelector } from 'react-redux';
 
 import { Col, Row } from 'react-styled-flexboxgrid';
 
-import { getDefaultValues } from '../helpers';
 import { updateSelectedSeries } from '../actions';
 import {
-  selectSelectedSeries, selectSearchResults, selectMetadataForm, selectExistingMetadata,
+  selectSelectedSeries, selectSearchResults,
 } from '../selectors';
 
 const Match = () => {
   const dispatch = useDispatch();
   const selectedSeries = useSelector(selectSelectedSeries, shallowEqual);
   const searchResults = useSelector(selectSearchResults, shallowEqual);
-  const metadataForm = useSelector(selectMetadataForm, shallowEqual);
-  const existingMetadata = useSelector(selectExistingMetadata, shallowEqual);
 
   const updateMatch = (series) => {
     dispatch(updateSelectedSeries(series));
-    metadataForm.reset(getDefaultValues({
-      existingMetadata,
-      selectedSeries: series,
-    }));
   };
 
   const synonymLength = selectedSeries && selectedSeries.synonyms && selectedSeries.synonyms.length;
@@ -45,11 +38,11 @@ const Match = () => {
                         || selectedSeries?.coverImage?.medium}
                       alt={selectedSeries?.title?.english
                         || selectedSeries?.title?.romaji
-                        || selectedSeries?.title?.romaji}
+                        || selectedSeries?.title?.native}
                     />
                   </Col>
                 )}
-              <Col xs={6}>
+              <Col xs={6} style={{ wordBreak: 'break-word' }}>
 
                 <div>
                   {selectedSeries.title
@@ -58,24 +51,24 @@ const Match = () => {
                         <h3>Title</h3>
                         <p>
                           English:
-                          {selectedSeries.title.english}
+                          {selectedSeries.title?.english}
                         </p>
                         <p>
                           Romaji:
-                          {selectedSeries.title.romaji}
+                          {selectedSeries.title?.romaji}
                         </p>
                         <p>
                           Native:
-                          {selectedSeries.title.romaji}
+                          {selectedSeries.title?.native}
                         </p>
                       </>
                     )}
-                  {selectedSeries.synonyms && selectedSeries.synonyms.length
+                  {selectedSeries.synonyms && selectedSeries.synonyms?.length
                     && (
                       <>
                         <p>
                           Synonyms:&nbsp;
-                          {selectedSeries.synonyms.map((synonym, index) => (
+                          {selectedSeries.synonyms?.map((synonym, index) => (
                             <span>
                               {synonym}
                               {index < synonymLength - 1 && ','}

@@ -10,4 +10,6 @@ export const setFormData = (data) => ({ type: 'SET_FORM_DATA', data });
 export const updateSearchResults = (data) => ({ type: 'UPDATE_SEARCH_RESULTS', data });
 export const updateExistingMetadata = (data) => ({ type: 'UPDATE_EXISTING_METADATA', data });
 
-export const updateSelectedSeries = (data) => ({ type: 'UPDATE_SELECTED_SERIES', data });
+export const updateSelectedSeries = (series) => ({ type: 'UPDATE_SELECTED_SERIES_ACTION', series });
+
+export const updateSelectedSeriesReducer = (series) => ({ type: 'UPDATE_SELECTED_SERIES', series });

@@ -54,7 +54,7 @@ function* updateMetadata() {
     // Set Loader
     yield put(actions.updateLoaderStatus({
       show: true,
-      type: CONSTANTS.GLOBAL,
+      type: CONSTANTS.SEARCH,
     }));
 
     yield call(apis.updateMetadata, data); // API Call
@@ -65,22 +65,65 @@ function* updateMetadata() {
   }
 }
 
-function* anilistSearch({ title, update }) {
+function* getKitsuGenres(series) {
+  const genreResults = yield apis.getKitsuGenres(series.id);
+  const genres = [];
+  const tags = [];
+
+  genreResults?.data?.data.forEach((item) => {
+    // genre?.attributes?.name
+    if (window.komga?.genres?.length > 0) {
+      if (window.komga?.genres?.find(
+        (komgaGenre) => (komgaGenre.toLowerCase() === item?.attributes?.name?.toLowerCase()),
+      )) {
+        genres.push(item?.attributes?.name);
+      } else {
+        tags.push(item?.attributes?.name);
+      }
+    }
+  });
+  return { genres, tags };
+}
+
+function* updateSelectedSeries(action) {
+  let additionalData = {};
+  switch (action?.series?.source) {
+    case CONSTANTS.KITSU:
+      additionalData = yield call(getKitsuGenres, action?.series);
+      break;
+    default:
+      break;
+  }
+
+  const selectedSeries = { ...action?.series, ...additionalData };
+  const metadaForm = yield select(selectors.selectMetadataForm);
+
+  let { existingMetadata } = actions;
+  if (!existingMetadata) {
+    existingMetadata = yield select(selectors.selectExistingMetadata);
+  }
+
+  yield put(actions.updateSelectedSeriesReducer(selectedSeries));
+
+  metadaForm?.reset(helpers.getDefaultValues({
+    selectedSeries,
+    existingMetadata,
+  }));
+}
+
+function* anilistSearch({ title }) {
   // Search series in Anilist
   try {
-    const titleElement = document.querySelector('.v-main__wrap .v-toolbar__content .v-toolbar__title span');
-    const searchTitle = title || (titleElement && titleElement.innerText) || '';// a.innerText
-
     const [anilistResponse, komgaResponse] = yield Promise.all([
-      apis.searchAnlist(searchTitle),
+      apis.searchAnlist(title),
       apis.getExistingMetadata(),
     ]);
 
     let list;
     let seriesMedia;
     if (anilistResponse.status === 200) {
-      list = anilistResponse?.data?.data?.Page?.media;
-      seriesMedia = helpers.getAnilistSeriesMatch(searchTitle, list);
+      list = helpers.mapAnilistSearch(anilistResponse?.data?.data?.Page?.media);
+      seriesMedia = helpers.getSeriesMatch(title, list);
       if (seriesMedia) {
         seriesMedia.fetchDate = new Date().toLocaleString(undefined, {
           month: 'short',
@@ -90,58 +133,31 @@ function* anilistSearch({ title, update }) {
       }
     }
 
-    yield put(actions.openModal(CONSTANTS.AL));
     yield put(actions.updateSearchResults(list));
     yield put(actions.updateExistingMetadata(komgaResponse.data.metadata));
-    yield put(actions.updateSelectedSeries(seriesMedia));
-    if (update) {
-      const metadaForm = yield select(selectors.selectMetadataForm);
-      metadaForm.reset(helpers.getDefaultValues({
-        selectedSeries: seriesMedia,
-        existingMetadata: komgaResponse.data.metadata,
-      }));
-    }
-
-    //   // Finish and return
-    //   cb({
-    //     search,
-    //     list,
-    //     closest: seriesMedia,
-    //     existingMetadata: komgaResponse.data.metadata,
-    //   }, update);
-
-    //   // use/access the results
-    // })).catch((error) => {
-    //   console.log(error);
-    //   // Failure
-    //   if (cb) {
-    //     cb(null);
-    //   }
-    // });
+    yield call(updateSelectedSeries, {
+      series: seriesMedia,
+      existingMetadata: komgaResponse.data.metadata,
+    });
+    yield put(actions.openModal(CONSTANTS.AL));
   } catch (error) {
     console.error(error);
   }
 }
 
-function* kituSearch({ title, update }) {
+function* kituSearch({ title }) {
   // Search series in Anilist
   try {
-    const titleElement = document.querySelector('.v-main__wrap .v-toolbar__content .v-toolbar__title span');
-    const searchTitle = title || (titleElement && titleElement.innerText) || '';// a.innerText
-
     const [kitsuResponse, komgaResponse] = yield Promise.all([
-      apis.searchKitsu(searchTitle),
+      apis.searchKitsu(title),
       apis.getExistingMetadata(),
     ]);
 
     let list;
     let seriesMedia;
-    console.log(kitsuResponse);
-    return;
-    // eslint-disable-next-line no-unreachable
     if (kitsuResponse.status === 200) {
       list = helpers.mapKitsuSearch(kitsuResponse?.data?.data);
-      seriesMedia = helpers.getAnilistSeriesMatch(searchTitle, list);
+      seriesMedia = helpers.getSeriesMatch(title, list);
       if (seriesMedia) {
         seriesMedia.fetchDate = new Date().toLocaleString(undefined, {
           month: 'short',
@@ -151,17 +167,13 @@ function* kituSearch({ title, update }) {
       }
     }
 
-    yield put(actions.openModal(CONSTANTS.AL));
     yield put(actions.updateSearchResults(list));
     yield put(actions.updateExistingMetadata(komgaResponse.data.metadata));
-    yield put(actions.updateSelectedSeries(seriesMedia));
-    if (update) {
-      const metadaForm = yield select(selectors.selectMetadataForm);
-      metadaForm.reset(helpers.getDefaultValues({
-        selectedSeries: seriesMedia,
-        existingMetadata: komgaResponse.data.metadata,
-      }));
-    }
+    yield call(updateSelectedSeries, {
+      series: seriesMedia,
+      existingMetadata: komgaResponse.data.metadata,
+    });
+    yield put(actions.openModal(CONSTANTS.KITSU));
   } catch (error) {
     console.error(error);
   }
@@ -187,24 +199,25 @@ function* search(action) {
     // Show Loader
     yield put(actions.updateLoaderStatus({
       show: true,
-      type: action.data.title ? action.data.type : CONSTANTS.GLOBAL,
+      type: action.data.initial ? action.data.type : CONSTANTS.SEARCH,
     }));
 
+    const data = { title };
     switch (action.data.type) {
       case CONSTANTS.AL:
-        yield call(anilistSearch, { title });
+        yield call(anilistSearch, data);
         break;
       case CONSTANTS.KITSU:
-        yield call(kituSearch, { title });
+        yield call(kituSearch, data);
         break;
       case CONSTANTS.MAL:
-        yield call(malSearch, { title });
+        yield call(malSearch, data);
         break;
       case CONSTANTS.MU:
-        yield call(mangaUpdatesSearch, { title });
+        yield call(mangaUpdatesSearch, data);
         break;
       case CONSTANTS.MANGADEX:
-        yield call(mangadexSearch, { title });
+        yield call(mangadexSearch, data);
         break;
 
       default:
@@ -224,6 +237,7 @@ function* search(action) {
 export function* actionWatcher() {
   yield takeLatest('SEARCH', search);
   yield takeLatest('UPDATE_METADATA', updateMetadata);
+  yield takeLatest('UPDATE_SELECTED_SERIES_ACTION', updateSelectedSeries);
 }
 
 // single entry point to start all Sagas at once

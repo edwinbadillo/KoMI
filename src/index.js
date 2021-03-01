@@ -10,6 +10,9 @@ const store = configureStore();
 
 window.komga = window.komga || {};
 
+// eslint-disable-next-line
+window.komga.genres = ["action","action/adventure","adventure","comedy","crime","drama","ecchi","fantasy","horror","manga","mecha","music","mystery","psychological","religious","romance","sci-fi","slice of life","sports","supernatural","thriller","video games"];
+
 const initialize = () => {
   const parentElement = document.querySelector('.v-main__wrap .v-toolbar__content');
   if (parentElement && window.location.href.startsWith(`${window.location.origin}`)) {

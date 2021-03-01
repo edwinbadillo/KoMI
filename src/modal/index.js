@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Form from './form';
 import Match from './match';
+import Loader from '../loader';
 import { closeModal } from '../actions';
 import { selectModalStatus } from '../selectors';
 
@@ -42,6 +43,7 @@ const MetadataModal = () => {
       onClose={onClose}
     >
       <div className={classes.paper}>
+        <Loader />
         <Match />
         <Form />
       </div>
