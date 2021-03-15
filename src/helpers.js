@@ -65,6 +65,7 @@ const getStatus = (input = '') => {
       status = 'HIATUS';
       break;
     default:
+      status = 'ONGOING'; // Kitsu has some weird status values, seems like it's a text field from their side.
       break;
   }
   return status;

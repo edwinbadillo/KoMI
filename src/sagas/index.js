@@ -72,7 +72,9 @@ function* getKitsuGenres(series) {
 
   genreResults?.data?.data.forEach((item) => {
     // genre?.attributes?.name
-    if (window.komga?.genres?.length > 0) {
+    if (window.komga?.ignoreGenreList) {
+      genres.push(item?.attributes?.name);
+    } else if (window.komga?.genres?.length > 0) {
       if (window.komga?.genres?.find(
         (komgaGenre) => (komgaGenre.toLowerCase() === item?.attributes?.name?.toLowerCase()),
       )) {
@@ -80,6 +82,8 @@ function* getKitsuGenres(series) {
       } else {
         tags.push(item?.attributes?.name);
       }
+    } else {
+      tags.push(item?.attributes?.name);
     }
   });
   return { genres, tags };
@@ -98,7 +102,7 @@ function* updateSelectedSeries(action) {
   const selectedSeries = { ...action?.series, ...additionalData };
   const metadaForm = yield select(selectors.selectMetadataForm);
 
-  let { existingMetadata } = actions;
+  let { existingMetadata } = action;
   if (!existingMetadata) {
     existingMetadata = yield select(selectors.selectExistingMetadata);
   }
