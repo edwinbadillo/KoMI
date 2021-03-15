@@ -3,7 +3,7 @@ import { anilistQuery } from '../constants';
 
 const isDevServer = process?.env?.NODE_ENV === 'development';
 
-const komgaApiUrl = `${window.location.origin}/api/v1${window.location.pathname}`;
+const komgaApiUrl = `${window.location.origin}/api/v1`;
 
 const komgaDevUrls = {
   metaData: 'https://run.mocky.io/v3/f304e0dd-e722-4a81-a031-26d899586972',
@@ -11,7 +11,7 @@ const komgaDevUrls = {
 
 export const updateMetadata = (data) => axios({
   method: 'patch',
-  url: isDevServer ? komgaDevUrls.metaData : `${komgaApiUrl}/metadata`,
+  url: isDevServer ? komgaDevUrls.metaData : `${komgaApiUrl}${window.location.pathname}/metadata`,
   data,
 });
 
@@ -33,7 +33,7 @@ export const searchAnlist = (search) => (
 
 export const getExistingMetadata = () => (axios({
   method: 'get',
-  url: isDevServer ? komgaDevUrls.metaData : komgaApiUrl,
+  url: isDevServer ? komgaDevUrls.metaData : `${komgaApiUrl}${window.location.pathname}`,
 }));
 
 export const searchKitsu = (search) => (axios({
