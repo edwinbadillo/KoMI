@@ -84,6 +84,29 @@ const getStatus = (input = '') => {
   return status;
 };
 
+const getKitsuAgeRating = (input) => {
+  let ageRating = input;
+
+  if (ageRating) {
+    switch (input.toUpperCase()) {
+      case 'G':
+        ageRating = 0;
+        break;
+      case 'PG':
+      case 'PG-13':
+        ageRating = 13;
+        break;
+      case 'R':
+        ageRating = 18;
+        break;
+      default:
+        ageRating = undefined;
+        break;
+    }
+  }
+  return ageRating;
+};
+
 export const getDefaultValues = (data) => {
   const { selectedSeries = {}, existingMetadata = {} } = (data || {});
   let tags = existingMetadata.tags || [];
@@ -165,7 +188,7 @@ export const mapKitsuSearch = (kitsuList) => kitsuList.map((series) => ({
   genres: [],
   synonyms: [...(series?.attributes?.abbreviatedTitles || []), ...[series?.attributes?.canonicalTitle || '']],
   tags: [],
-  ageRating: series?.attributes?.ageRating,
+  ageRating: getKitsuAgeRating(series?.attributes?.ageRating),
   publisher: undefined,
   source: CONSTANTS.KITSU,
   siteUrl: xss(`https://kitsu.io/manga/${series?.attributes?.slug || series?.id || ''}`, {
