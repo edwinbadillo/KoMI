@@ -124,7 +124,12 @@ const Match = () => {
                       }
                     }}
                   >
-                    {match.title.english || match.title.romaji || match.title.romaji}
+                    {
+                      match.title.english
+                      || match.title.romaji
+                      || match.title.romaji
+                      || match?.synonyms?.[0]
+                    }
                   </a>
                 </li>
               ))}
