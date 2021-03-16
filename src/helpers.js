@@ -1,3 +1,5 @@
+import xss from 'xss';
+import he from 'he';
 import * as CONSTANTS from './constants';
 
 export const getCookie = (name) => {
@@ -10,6 +12,17 @@ export const getCookie = (name) => {
 const match = (pattern, item) => {
   const regex = new RegExp(`.*${pattern}.*`, 'i');
   return regex.test(item);
+};
+
+export const getText = (text) => {
+  let result = text.replace(/<br>/gi, '\n');
+  result = he.unescape(result);
+  result = xss(result, {
+    whiteList: [], // empty, means filter out all tags
+    stripIgnoreTag: true, // filter out all HTML not in the whitelist
+    stripIgnoreTagBody: ['script'], // the script tag is a special case, we need to filter out its content
+  });
+  return result;
 };
 
 export const getSeriesMatch = (search, list) => {
@@ -111,18 +124,13 @@ export const getDefaultValues = (data) => {
 
     if (!(existingMetadata.summaryLock && window.komga.enforceLocks)) {
       summary = selectedSeries.description || selectedSeries.summary || existingMetadata.summary;
-      if (summary) {
-        // TODO: Sanitize input
-        summary = summary.replace(/<br>/gi, '\n');
-        summary = summary.replace(/<b>|<\/b>|<i>|<\/i>/gi, '');
-      }
     }
   }
 
   const defaultValues = {
     title: existingMetadata.title,
     sortTitle: existingMetadata.titleSort,
-    summary,
+    summary: getText(summary),
     status,
     publisher,
     genres,

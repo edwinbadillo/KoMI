@@ -9,6 +9,8 @@ import {
   selectSelectedSeries, selectSearchResults,
 } from '../selectors';
 
+import { getText } from '../helpers';
+
 const Match = () => {
   const dispatch = useDispatch();
   const selectedSeries = useSelector(selectSelectedSeries, shallowEqual);
@@ -19,7 +21,6 @@ const Match = () => {
   };
 
   const synonymLength = selectedSeries && selectedSeries.synonyms && selectedSeries.synonyms.length;
-  // window.selectedSeries = selectedSeries;
   return (
     <Row>
       {!selectedSeries && <h2>No Results...</h2>}
@@ -92,7 +93,7 @@ const Match = () => {
                         WebkitLineClamp: 8,
                       }}
                       >
-                        {selectedSeries.description.replace(/<br>/gi, '\n').replace(/<b>|<\/b>|<i>|<\/i>/gi, '')}
+                        {getText(selectedSeries.description)}
                       </p>
                     </div>
                   )}

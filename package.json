@@ -6,6 +6,7 @@
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "axios": "^0.21.1",
+    "he": "^1.2.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-app-polyfill": "^2.0.0",
@@ -21,7 +22,8 @@
     "regenerator-runtime": "^0.13.7",
     "reselect": "^4.0.0",
     "rewire": "^5.0.0",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "xss": "^1.0.8"
   },
   "scripts": {
     "start": "react-scripts start",
