@@ -3,6 +3,9 @@ import React from 'react';
 import { useDispatch, shallowEqual, useSelector } from 'react-redux';
 
 import { Col, Row } from 'react-styled-flexboxgrid';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import IconButton from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { updateSelectedSeries } from '../actions';
 import {
@@ -16,18 +19,55 @@ const Match = () => {
   const selectedSeries = useSelector(selectSelectedSeries, shallowEqual);
   const searchResults = useSelector(selectSearchResults, shallowEqual);
 
+  const useStyles = makeStyles(() => ({
+    flexWrapper: {
+      display: 'flex',
+    },
+    iconButton: {
+      padding: '6px 8px',
+      minWidth: 'auto !important',
+    },
+    OpenInNewIcon: {
+      fontSize: 'medium',
+    },
+  }));
+
   const updateMatch = (series) => {
     dispatch(updateSelectedSeries(series));
   };
 
+  const goToMatch = () => {
+    window.open(selectedSeries.siteUrl, '_blank');
+  };
+
   const synonymLength = selectedSeries && selectedSeries.synonyms && selectedSeries.synonyms.length;
+  const classes = useStyles();
+
   return (
     <Row>
       {!selectedSeries && <h2>No Results...</h2>}
       {selectedSeries
         && (
           <Col xs={8}>
-            <h2>Current Match</h2>
+            <div className={classes.flexWrapper}>
+              <h2>Current Match</h2>
+              {selectedSeries?.siteUrl
+              && (
+              <IconButton
+                className={classes.iconButton}
+                aria-label="Go to series metadata page in new tab"
+                onClick={goToMatch}
+                onKeyDown={(e) => {
+                  if (e?.code === 'Space' || e?.code === 'Enter') {
+                    goToMatch();
+                  }
+                }}
+              >
+                <OpenInNewIcon className={classes.OpenInNewIcon} />
+              </IconButton>
+              )}
+            </div>
+
             <Row>
               {selectedSeries.coverImage
                 && (

@@ -168,4 +168,9 @@ export const mapKitsuSearch = (kitsuList) => kitsuList.map((series) => ({
   ageRating: series?.attributes?.ageRating,
   publisher: undefined,
   source: CONSTANTS.KITSU,
+  siteUrl: xss(`https://kitsu.io/manga/${series?.attributes?.slug || series?.id || ''}`, {
+    whiteList: [], // empty, means filter out all tags
+    stripIgnoreTag: true, // filter out all HTML not in the whitelist
+    stripIgnoreTagBody: ['script'], // the script tag is a special case, we need to filter out its content
+  }),
 }));
