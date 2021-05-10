@@ -54,7 +54,8 @@ const MetadataModal = () => {
     dispatch(search({ title: getValues('title'), update: true, type: modalStatus.type }));
   };
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
     dispatch(updateMetadata());
   };
 
