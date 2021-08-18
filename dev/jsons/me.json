@@ -1,0 +1,5 @@
+{
+  "id": "01sdsdsdsd",
+  "email": "test@gmail.com",
+  "roles": ["USER", "ADMIN", "FILE_DOWNLOAD", "PAGE_STREAMING"]
+}

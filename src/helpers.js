@@ -197,3 +197,12 @@ export const mapKitsuSearch = (kitsuList) => kitsuList.map((series) => ({
     stripIgnoreTagBody: ['script'], // the script tag is a special case, we need to filter out its content
   }),
 }));
+
+export const getSeriesId = () => {
+  const pathNameArray = window.location.pathname.split('/') || [''];
+  let seriesId = pathNameArray.pop();
+  if (seriesId === '') {
+    seriesId = pathNameArray.pop();
+  }
+  return seriesId;
+};

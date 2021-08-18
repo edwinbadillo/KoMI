@@ -1,0 +1,33 @@
+[{
+  "id": "04K0FD29X8E53",
+  "name": "Books",
+  "root": "/books",
+  "importComicInfoBook": true,
+  "importComicInfoSeries": true,
+  "importComicInfoCollection": true,
+  "importComicInfoReadList": true,
+  "importEpubBook": true,
+  "importEpubSeries": true,
+  "importLocalArtwork": true,
+  "importBarcodeIsbn": true,
+  "scanForceModifiedTime": false,
+  "scanDeep": false,
+  "repairExtensions": false,
+  "convertToCbz": false
+}, {
+  "id": "01ZK4MENPP1RT",
+  "name": "Manga",
+  "root": "/manga",
+  "importComicInfoBook": true,
+  "importComicInfoSeries": true,
+  "importComicInfoCollection": true,
+  "importComicInfoReadList": true,
+  "importEpubBook": true,
+  "importEpubSeries": true,
+  "importLocalArtwork": true,
+  "importBarcodeIsbn": false,
+  "scanForceModifiedTime": false,
+  "scanDeep": false,
+  "repairExtensions": false,
+  "convertToCbz": false
+}]

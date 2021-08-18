@@ -1,0 +1,15 @@
+{
+  "git": {
+    "branch": "master",
+    "commit": {
+      "id": "d05237f",
+      "time": "2021-05-31T10:09:49Z"
+    }
+  },
+  "build": {
+    "artifact": "komga",
+    "name": "komga",
+    "version": "0.97.0",
+    "group": "org.gotson"
+  }
+}
