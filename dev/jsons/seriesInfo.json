@@ -1,0 +1,63 @@
+{
+  "id": "02BC586EY3VP2",
+  "libraryId": "01ZK4MENPP1RT",
+  "name": "12 Beast",
+  "url": "/manga/12 Beast",
+  "created": "2020-08-22T04:45:07",
+  "lastModified": "2020-08-26T03:36:52",
+  "fileLastModified": "2020-08-25T23:36:24",
+  "booksCount": 7,
+  "booksReadCount": 0,
+  "booksUnreadCount": 6,
+  "booksInProgressCount": 1,
+  "metadata": {
+    "status": "ONGOING",
+    "statusLock": true,
+    "title": "12 Beast",
+    "titleLock": true,
+    "titleSort": "12 Beast",
+    "titleSortLock": true,
+    "summary": "Eita Touga, a seemingly normal high school student, is secretly the heir apparent to a distinguished line of ninja. Unfortunately for the Touga Clan, Eita has no interest in taking over the family business. More interested in the virtual reality of video games than real life, Eita has sequestered himself to a life of digital bliss.\n\n\nThat is until one fateful day, a mysterious harpy girl kicks in the door to his family dojo and spirits Eita away to a world full of monsters and mythological creatures. Can an unwilling slacker of a ninja like Eita help the denizens of another world stave off an invasion by a technologically-superior empire?",
+    "summaryLock": true,
+    "readingDirection": "",
+    "readingDirectionLock": true,
+    "publisher": "Seven Seas Entertainment",
+    "publisherLock": true,
+    "ageRating": null,
+    "ageRatingLock": true,
+    "language": "en",
+    "languageLock": true,
+    "genres": ["action", "adventure", "fantasy", "mecha", "comedy", "ecchi"],
+    "genresLock": true,
+    "tags": ["shounen", "monster girl", "isekai", "example"],
+    "tagsLock": true,
+    "created": "2020-08-22T04:45:07",
+    "lastModified": "2021-06-08T03:42:08"
+  },
+  "booksMetadata": {
+    "authors": [{
+      "name": "Nicky Lim",
+      "role": "cover"
+    }, {
+      "name": "Okayado",
+      "role": "cover"
+    }, {
+      "name": "Okayado",
+      "role": "inker"
+    }, {
+      "name": "Okayado",
+      "role": "penciller"
+    }, {
+      "name": "Okayado",
+      "role": "writer"
+    }, {
+      "name": "Victoria Robado",
+      "role": "letterer"
+    }],
+    "releaseDate": null,
+    "summary": "HARPY GIRLS JUST WANNA HAVE FUN!\nThree things you should know about Touga Eita, second-year high school student and heir to the Touga-style ninjutsu dojo: First, he really, really loves video games. Second, when given a choice between heroics and saving his own skin, he will always choose the latter. Third, he's never so much as kissed a girl.\nAll this changes when a voluptuous girl with wings and taloned feet named Aero appears and calls on Eita to help save her people-the harpies of Re-Verse-from the merciless onslaught of giant robot monsters known as Gigas. Eita will follow his newfound harpy friend into a whole new world, filled with monster girls and fantastical creatures beyond his wildest dreams.Chapter TitlesChapter 1: Secret Agent Ninja ApprenticeChapter 2: A Blight on the Re-VerseChapter 3: The Last Wings of FreedomChapter 4: Counterstrike",
+    "summaryNumber": "1",
+    "created": "2021-01-12T03:01:20",
+    "lastModified": "2021-06-07T23:43:27"
+  }
+}

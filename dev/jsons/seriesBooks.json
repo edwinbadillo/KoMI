@@ -1,0 +1,324 @@
+{
+  "content": [{
+    "id": "02BC586ET3SKH",
+    "seriesId": "02BC586EY3VP2",
+    "libraryId": "01ZK4MENPP1RT",
+    "name": "Volume 01",
+    "url": "/manga/example/example v01.cbz",
+    "number": 1,
+    "created": "2020-08-22T04:45:07",
+    "lastModified": "2020-08-26T03:36:53",
+    "fileLastModified": "2020-08-25T23:36:24",
+    "sizeBytes": 1,
+    "size": "1 MiB",
+    "media": {
+      "status": "READY",
+      "mediaType": "application/zip",
+      "pagesCount": 1,
+      "comment": ""
+    },
+    "metadata": {
+      "title": "Volume 01",
+      "titleLock": false,
+      "summary": "HARPY GIRLS JUST WANNA HAVE FUN!\nThree things you should know about Touga Eita, second-year high school student and heir to the Touga-style ninjutsu dojo: First, he really, really loves video games. Second, when given a choice between heroics and saving his own skin, he will always choose the latter. Third, he's never so much as kissed a girl.\nAll this changes when a voluptuous girl with wings and taloned feet named Aero appears and calls on Eita to help save her people-the harpies of Re-Verse-from the merciless onslaught of giant robot monsters known as Gigas. Eita will follow his newfound harpy friend into a whole new world, filled with monster girls and fantastical creatures beyond his wildest dreams.Chapter TitlesChapter 1: Secret Agent Ninja ApprenticeChapter 2: A Blight on the Re-VerseChapter 3: The Last Wings of FreedomChapter 4: Counterstrike",
+      "summaryLock": false,
+      "number": "1",
+      "numberLock": false,
+      "numberSort": 1.0,
+      "numberSortLock": false,
+      "releaseDate": null,
+      "releaseDateLock": false,
+      "authors": [{
+        "name": "Okayado",
+        "role": "writer"
+      }, {
+        "name": "Okayado",
+        "role": "penciller"
+      }, {
+        "name": "Okayado",
+        "role": "inker"
+      }, {
+        "name": "Victoria Robado",
+        "role": "letterer"
+      }, {
+        "name": "Nicky Lim",
+        "role": "cover"
+      }, {
+        "name": "Okayado",
+        "role": "cover"
+      }],
+      "authorsLock": false,
+      "tags": [],
+      "tagsLock": false,
+      "isbn": "",
+      "isbnLock": false,
+      "created": "2020-08-22T04:45:07",
+      "lastModified": "2021-06-08T03:33:49"
+    },
+    "readProgress": {
+      "page": 71,
+      "completed": false,
+      "created": "2020-08-26T05:55:00",
+      "lastModified": "2020-08-26T16:44:43"
+    }
+  }, {
+    "id": "02BC586ET3SKJ",
+    "seriesId": "02BC586EY3VP2",
+    "libraryId": "01ZK4MENPP1RT",
+    "name": "Volume 02",
+    "url": "/manga/example/example v02.cbz",
+    "number": 2,
+    "created": "2020-08-22T04:45:07",
+    "lastModified": "2020-08-26T03:36:53",
+    "fileLastModified": "2020-08-25T23:35:29",
+    "sizeBytes": 1,
+    "size": "1 MiB",
+    "media": {
+      "status": "READY",
+      "mediaType": "application/zip",
+      "pagesCount": 1,
+      "comment": ""
+    },
+    "metadata": {
+      "title": "Volume 02",
+      "titleLock": false,
+      "summary": "",
+      "summaryLock": false,
+      "number": "2",
+      "numberLock": false,
+      "numberSort": 2.0,
+      "numberSortLock": false,
+      "releaseDate": null,
+      "releaseDateLock": false,
+      "authors": [],
+      "authorsLock": false,
+      "tags": [],
+      "tagsLock": false,
+      "isbn": "",
+      "isbnLock": false,
+      "created": "2020-08-22T04:45:07",
+      "lastModified": "2021-06-08T03:33:50"
+    },
+    "readProgress": null
+  }, {
+    "id": "02BC586ET3SKK",
+    "seriesId": "02BC586EY3VP2",
+    "libraryId": "01ZK4MENPP1RT",
+    "name": "Volume 03",
+    "url": "/manga/example/example v03.cbz",
+    "number": 3,
+    "created": "2020-08-22T04:45:07",
+    "lastModified": "2020-08-26T03:36:53",
+    "fileLastModified": "2020-08-25T23:35:12",
+    "sizeBytes": 1,
+    "size": "1 MiB",
+    "media": {
+      "status": "READY",
+      "mediaType": "application/zip",
+      "pagesCount": 1,
+      "comment": ""
+    },
+    "metadata": {
+      "title": "Volume 03",
+      "titleLock": false,
+      "summary": "",
+      "summaryLock": false,
+      "number": "3",
+      "numberLock": false,
+      "numberSort": 3.0,
+      "numberSortLock": false,
+      "releaseDate": null,
+      "releaseDateLock": false,
+      "authors": [],
+      "authorsLock": false,
+      "tags": [],
+      "tagsLock": false,
+      "isbn": "",
+      "isbnLock": false,
+      "created": "2020-08-22T04:45:07",
+      "lastModified": "2021-06-08T03:33:51"
+    },
+    "readProgress": null
+  }, {
+    "id": "02BC586ET3SKM",
+    "seriesId": "02BC586EY3VP2",
+    "libraryId": "01ZK4MENPP1RT",
+    "name": "Volume 04",
+    "url": "/manga/example/example v04.cbz",
+    "number": 4,
+    "created": "2020-08-22T04:45:07",
+    "lastModified": "2020-08-26T03:36:53",
+    "fileLastModified": "2020-08-25T23:35:21",
+    "sizeBytes": 1,
+    "size": "1 MiB",
+    "media": {
+      "status": "READY",
+      "mediaType": "application/zip",
+      "pagesCount": 1,
+      "comment": ""
+    },
+    "metadata": {
+      "title": "Volume 04",
+      "titleLock": false,
+      "summary": "",
+      "summaryLock": false,
+      "number": "4",
+      "numberLock": false,
+      "numberSort": 4.0,
+      "numberSortLock": false,
+      "releaseDate": null,
+      "releaseDateLock": false,
+      "authors": [],
+      "authorsLock": false,
+      "tags": [],
+      "tagsLock": false,
+      "isbn": "",
+      "isbnLock": false,
+      "created": "2020-08-22T04:45:07",
+      "lastModified": "2021-06-08T03:33:52"
+    },
+    "readProgress": null
+  }, {
+    "id": "02BC586ET3SKN",
+    "seriesId": "02BC586EY3VP2",
+    "libraryId": "01ZK4MENPP1RT",
+    "name": "Volume 05",
+    "url": "/manga/example/example v05.cbz",
+    "number": 5,
+    "created": "2020-08-22T04:45:07",
+    "lastModified": "2020-08-26T03:36:53",
+    "fileLastModified": "2020-08-25T23:35:02",
+    "sizeBytes": 1,
+    "size": "1 MiB",
+    "media": {
+      "status": "READY",
+      "mediaType": "application/zip",
+      "pagesCount": 1,
+      "comment": ""
+    },
+    "metadata": {
+      "title": "Volume 05",
+      "titleLock": false,
+      "summary": "",
+      "summaryLock": false,
+      "number": "5",
+      "numberLock": false,
+      "numberSort": 5.0,
+      "numberSortLock": false,
+      "releaseDate": null,
+      "releaseDateLock": false,
+      "authors": [],
+      "authorsLock": false,
+      "tags": [],
+      "tagsLock": false,
+      "isbn": "",
+      "isbnLock": false,
+      "created": "2020-08-22T04:45:07",
+      "lastModified": "2021-06-08T03:33:53"
+    },
+    "readProgress": null
+  }, {
+    "id": "02BC586ET3SKP",
+    "seriesId": "02BC586EY3VP2",
+    "libraryId": "01ZK4MENPP1RT",
+    "name": "Volume 06",
+    "url": "/manga/example/example v06.cbz",
+    "number": 6,
+    "created": "2020-08-22T04:45:07",
+    "lastModified": "2020-08-26T03:36:53",
+    "fileLastModified": "2020-08-25T23:34:39",
+    "sizeBytes": 1,
+    "size": "1 MiB",
+    "media": {
+      "status": "READY",
+      "mediaType": "application/zip",
+      "pagesCount": 1,
+      "comment": ""
+    },
+    "metadata": {
+      "title": "Volume 06",
+      "titleLock": false,
+      "summary": "",
+      "summaryLock": false,
+      "number": "6",
+      "numberLock": false,
+      "numberSort": 6.0,
+      "numberSortLock": false,
+      "releaseDate": null,
+      "releaseDateLock": false,
+      "authors": [],
+      "authorsLock": false,
+      "tags": [],
+      "tagsLock": false,
+      "isbn": "",
+      "isbnLock": false,
+      "created": "2020-08-22T04:45:07",
+      "lastModified": "2021-06-08T03:33:54"
+    },
+    "readProgress": null
+  }, {
+    "id": "02BC586EY3VP1",
+    "seriesId": "02BC586EY3VP2",
+    "libraryId": "01ZK4MENPP1RT",
+    "name": "Volume 07",
+    "url": "/manga/example/example v07.cbz",
+    "number": 7,
+    "created": "2020-08-22T04:45:07",
+    "lastModified": "2020-08-26T03:36:53",
+    "fileLastModified": "2020-08-25T23:34:50",
+    "sizeBytes": 1,
+    "size": "1 MiB",
+    "media": {
+      "status": "READY",
+      "mediaType": "application/zip",
+      "pagesCount": 1,
+      "comment": ""
+    },
+    "metadata": {
+      "title": "Volume 07",
+      "titleLock": false,
+      "summary": "",
+      "summaryLock": false,
+      "number": "7",
+      "numberLock": false,
+      "numberSort": 7.0,
+      "numberSortLock": false,
+      "releaseDate": null,
+      "releaseDateLock": false,
+      "authors": [],
+      "authorsLock": false,
+      "tags": [],
+      "tagsLock": false,
+      "isbn": "",
+      "isbnLock": false,
+      "created": "2020-08-22T04:45:07",
+      "lastModified": "2021-06-08T03:33:55"
+    },
+    "readProgress": null
+  }],
+  "pageable": {
+    "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+    },
+    "offset": 0,
+    "pageNumber": 0,
+    "pageSize": 200,
+    "paged": true,
+    "unpaged": false
+  },
+  "totalPages": 1,
+  "totalElements": 7,
+  "last": true,
+  "first": true,
+  "sort": {
+    "sorted": false,
+    "unsorted": true,
+    "empty": true
+  },
+  "size": 200,
+  "number": 0,
+  "numberOfElements": 7,
+  "empty": false
+}

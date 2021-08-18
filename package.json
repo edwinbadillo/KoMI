@@ -7,6 +7,7 @@
     "@material-ui/icons": "^4.11.2",
     "axios": "^0.21.1",
     "he": "^1.2.0",
+    "path": "^0.12.7",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-app-polyfill": "^2.0.0",
