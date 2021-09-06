@@ -40,3 +40,8 @@ export const getKitsuGenres = (id) => (axios({
   method: 'get',
   url: `https://kitsu.io/api/edge/manga/${id}/genres`,
 }));
+
+export const searchGoogle = (title) => (axios({
+  method: 'get',
+  url: `https://www.googleapis.com/books/v1/volumes?q=intitle:${title}&projection=lite&orderBy=relevance`,
+}));

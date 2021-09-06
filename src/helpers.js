@@ -127,26 +127,26 @@ export const getDefaultValues = (data) => {
 
     // Status Logic
     if (!(existingMetadata.statusLock && window.komga.enforceLocks)) {
-      status = getStatus(selectedSeries.status || existingMetadata.status);
+      status = getStatus(selectedSeries.status || existingMetadata.status || '');
     }
 
     // ageRating Logic
     if (!(existingMetadata.ageRatingLock && window.komga.enforceLocks)) {
-      ageRating = selectedSeries?.ageRating;
+      ageRating = selectedSeries?.ageRating || '';
     }
 
     // publisher Logic
     if (!(existingMetadata.publisherLock && window.komga.enforceLocks)) {
-      publisher = selectedSeries?.publisher || existingMetadata.publisher;
+      publisher = selectedSeries?.publisher || existingMetadata.publisher || '';
     }
 
     // language Logic
     if (!(existingMetadata.languageLock && window.komga.enforceLocks)) {
-      language = window.komga.defaultLanguage;
+      language = window.komga.defaultLanguage || '';
     }
 
     if (!(existingMetadata.summaryLock && window.komga.enforceLocks)) {
-      summary = selectedSeries.description || selectedSeries.summary || existingMetadata.summary;
+      summary = selectedSeries.description || selectedSeries.summary || existingMetadata.summary || '';
     }
   }
 
@@ -192,6 +192,29 @@ export const mapKitsuSearch = (kitsuList) => kitsuList.map((series) => ({
   publisher: undefined,
   source: CONSTANTS.KITSU,
   siteUrl: xss(`https://kitsu.io/manga/${series?.attributes?.slug || series?.id || ''}`, {
+    whiteList: [], // empty, means filter out all tags
+    stripIgnoreTag: true, // filter out all HTML not in the whitelist
+    stripIgnoreTagBody: ['script'], // the script tag is a special case, we need to filter out its content
+  }),
+}));
+
+export const mapGoogleSearch = (googleList) => googleList.map((series) => ({
+  id: series.id,
+  title: {
+    english: series?.volumeInfo?.title,
+  },
+  description: series?.volumeInfo?.description,
+  coverImage: {
+    medium: series?.volumeInfo?.imageLinks?.thumbnail,
+    small: series?.volumeInfo?.imageLinks?.smallThumbnail,
+  },
+  genres: [],
+  synonyms: [],
+  tags: [],
+  ageRating: series?.volumeInfo?.maturityRating === 'MATURE' ? 18 : undefined,
+  publisher: series?.volumeInfo?.publisher,
+  source: CONSTANTS.GOOGLE,
+  siteUrl: xss(series?.volumeInfo?.canonicalVolumeLink, {
     whiteList: [], // empty, means filter out all tags
     stripIgnoreTag: true, // filter out all HTML not in the whitelist
     stripIgnoreTagBody: ['script'], // the script tag is a special case, we need to filter out its content

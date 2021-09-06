@@ -195,6 +195,40 @@ function* mangadexSearch() {
   // Search series in Mangadex
 }
 
+function* googleSearch({ title }) {
+  // Search series in Google Books
+  try {
+    const [googleResponse, komgaResponse] = yield Promise.all([
+      apis.searchGoogle(title),
+      apis.getExistingMetadata(),
+    ]);
+
+    let list;
+    let seriesMedia;
+    if (googleResponse.status === 200) {
+      list = helpers.mapGoogleSearch(googleResponse?.data?.items);
+      seriesMedia = helpers.getSeriesMatch(title, list);
+      if (seriesMedia) {
+        seriesMedia.fetchDate = new Date().toLocaleString(undefined, {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        });
+      }
+    }
+
+    yield put(actions.updateSearchResults(list));
+    yield put(actions.updateExistingMetadata(komgaResponse.data.metadata));
+    yield call(updateSelectedSeries, {
+      series: seriesMedia,
+      existingMetadata: komgaResponse.data.metadata,
+    });
+    yield put(actions.openModal(CONSTANTS.GOOGLE));
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 function* search(action) {
   try {
     const titleElement = document.querySelector('.v-main__wrap .v-toolbar__content .v-toolbar__title span');
@@ -223,7 +257,8 @@ function* search(action) {
       case CONSTANTS.MANGADEX:
         yield call(mangadexSearch, data);
         break;
-
+      case CONSTANTS.GOOGLE:
+        yield call(googleSearch, data);
       default:
         break;
     }

@@ -6,6 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { getCookie } from '../helpers';
 import Anilist from '../anilist';
 import Kitsu from '../kitsu';
+import Google from '../google';
 import Modal from '../modal';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
       <div className="App">
         <Anilist />
         <Kitsu />
+        <Google />
         <Modal />
       </div>
     </ThemeProvider>

@@ -52,20 +52,20 @@ const Match = () => {
             <div className={classes.flexWrapper}>
               <h2>Current Match</h2>
               {selectedSeries?.siteUrl
-              && (
-              <IconButton
-                className={classes.iconButton}
-                aria-label="Go to series metadata page in new tab"
-                onClick={goToMatch}
-                onKeyDown={(e) => {
-                  if (e?.code === 'Space' || e?.code === 'Enter') {
-                    goToMatch();
-                  }
-                }}
-              >
-                <OpenInNewIcon className={classes.OpenInNewIcon} />
-              </IconButton>
-              )}
+                && (
+                  <IconButton
+                    className={classes.iconButton}
+                    aria-label="Go to series metadata page in new tab"
+                    onClick={goToMatch}
+                    onKeyDown={(e) => {
+                      if (e?.code === 'Space' || e?.code === 'Enter') {
+                        goToMatch();
+                      }
+                    }}
+                  >
+                    <OpenInNewIcon className={classes.OpenInNewIcon} />
+                  </IconButton>
+                )}
             </div>
 
             <Row>
@@ -91,20 +91,24 @@ const Match = () => {
                       <>
                         <h3>Title</h3>
                         <p>
-                          English:
+                          English:&nbsp;
                           {selectedSeries.title?.english}
                         </p>
-                        <p>
-                          Romaji:
-                          {selectedSeries.title?.romaji}
-                        </p>
-                        <p>
-                          Native:
-                          {selectedSeries.title?.native}
-                        </p>
+                        {selectedSeries.title?.romaji && (
+                          <p>
+                            Romaji:&nbsp;
+                            {selectedSeries.title?.romaji}
+                          </p>
+                        )}
+                        {selectedSeries.title?.native && (
+                          <p>
+                            Native:&nbsp;
+                            {selectedSeries.title?.native}
+                          </p>
+                        )}
                       </>
                     )}
-                  {selectedSeries.synonyms && selectedSeries.synonyms?.length
+                  {selectedSeries.synonyms && selectedSeries.synonyms?.length > 0
                     && (
                       <>
                         <p>
@@ -148,12 +152,12 @@ const Match = () => {
             <h2>Other Matches:</h2>
             <ul>
               {searchResults.map((match) => (
-                <li>
+                <li key={`otherMatches-${match?.id}`}>
                   <a
                     role="button"
                     tabIndex="0"
                     style={{
-                      'text-decoration': match.id === selectedSeries.id ? 'underline' : '',
+                      textDecoration: match.id === selectedSeries.id ? 'underline' : '',
                       fontWeight: match.id === selectedSeries.id ? 700 : 'normal',
                       cursor: 'pointer',
                     }}

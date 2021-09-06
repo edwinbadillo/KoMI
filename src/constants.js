@@ -63,6 +63,7 @@ query ($id: Int, $page: Int, $perPage: Int, $search: String, $type: MediaType) {
 `;
 
 export const AL = 'ANILIST';
+export const GOOGLE = 'GOOGLE';
 export const MAL = 'MY_ANIME_LIST';
 export const MU = 'MANGA_UPDATES';
 export const MANGADEX = 'MANGADEX';
