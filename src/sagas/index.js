@@ -59,7 +59,7 @@ function* updateMetadata() {
 
     yield call(apis.updateMetadata, data); // API Call
     yield put(actions.closeModal());
-    window.location.reload();
+    // window.location.reload();
   } catch (error) {
     console.error(error);
   }
@@ -89,11 +89,76 @@ function* getKitsuGenres(series) {
   return { genres, tags };
 }
 
+function* getMALInfo(series) {
+  try {
+    const response = yield apis.getMALInfo(series.id);
+
+    if (response?.status !== 200 || (!response?.data)) {
+      return {};
+    }
+
+    const seriesInfo = response?.data;
+    const additionalData = {
+      title: {
+        romaji: undefined,
+        english: seriesInfo?.title_english?.title,
+        native: seriesInfo?.title_japanese,
+      },
+      description: seriesInfo?.synopsis,
+      status: helpers.getStatus(seriesInfo?.status),
+      genres: [],
+      synonyms: seriesInfo?.title_synonyms || [],
+      tags: [],
+    };
+
+    const addToGenres = (list) => {
+      if (!(list?.length > 0)) {
+        return;
+      }
+
+      list.forEach((item) => {
+        // genre?.attributes?.name
+        if (window.komga?.ignoreGenreList) {
+          additionalData.genres.push(item?.name);
+        } else if (window.komga?.genres?.length > 0) {
+          if (window.komga?.genres?.find(
+            (komgaGenre) => (komgaGenre.toLowerCase() === item?.name?.toLowerCase()),
+          )) {
+            additionalData.genres.push(item?.name);
+          } else {
+            additionalData.tags.push(item?.name);
+          }
+        } else {
+          additionalData.tags.push(item?.name);
+        }
+      });
+    };
+
+    // Genres
+    addToGenres(seriesInfo?.genres);
+    addToGenres(seriesInfo?.explicit_genres);
+    addToGenres(seriesInfo?.demographics);
+    addToGenres(seriesInfo?.themes);
+    return additionalData;
+  } catch (error) {
+    return {};
+  }
+}
+
 function* updateSelectedSeries(action) {
   let additionalData = {};
+  if (!action?.noLoader) {
+    yield put(actions.updateLoaderStatus({
+      show: true,
+      type: CONSTANTS.SEARCH,
+    }));
+  }
   switch (action?.series?.source) {
     case CONSTANTS.KITSU:
       additionalData = yield call(getKitsuGenres, action?.series);
+      break;
+    case CONSTANTS.MAL:
+      additionalData = yield call(getMALInfo, action?.series);
       break;
     default:
       break;
@@ -113,6 +178,13 @@ function* updateSelectedSeries(action) {
     selectedSeries,
     existingMetadata,
   }));
+
+  if (!action?.noLoader) {
+    yield put(actions.updateLoaderStatus({
+      show: false,
+      type: CONSTANTS.SEARCH,
+    }));
+  }
 }
 
 function* anilistSearch({ title }) {
@@ -142,6 +214,7 @@ function* anilistSearch({ title }) {
     yield call(updateSelectedSeries, {
       series: seriesMedia,
       existingMetadata: komgaResponse.data.metadata,
+      noLoader: true,
     });
     yield put(actions.openModal(CONSTANTS.AL));
   } catch (error) {
@@ -176,6 +249,7 @@ function* kituSearch({ title }) {
     yield call(updateSelectedSeries, {
       series: seriesMedia,
       existingMetadata: komgaResponse.data.metadata,
+      noLoader: true,
     });
     yield put(actions.openModal(CONSTANTS.KITSU));
   } catch (error) {
@@ -183,8 +257,40 @@ function* kituSearch({ title }) {
   }
 }
 
-function* malSearch() {
+function* malSearch({ title }) {
   // Search series in My Anime List
+  try {
+    const [malResponse, komgaResponse] = yield Promise.all([
+      apis.searchMAL(title),
+      apis.getExistingMetadata(),
+    ]);
+
+    let list;
+    let seriesMedia;
+    if (malResponse.status === 200) {
+      list = helpers.mapMALSearch(malResponse?.data?.results);
+
+      seriesMedia = helpers.getSeriesMatch(title, list);
+      if (seriesMedia) {
+        seriesMedia.fetchDate = new Date().toLocaleString(undefined, {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        });
+      }
+    }
+
+    yield put(actions.updateSearchResults(list));
+    yield put(actions.updateExistingMetadata(komgaResponse.data.metadata));
+    yield call(updateSelectedSeries, {
+      series: seriesMedia,
+      existingMetadata: komgaResponse.data.metadata,
+      noLoader: true,
+    });
+    yield put(actions.openModal(CONSTANTS.MAL));
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 function* mangaUpdatesSearch() {

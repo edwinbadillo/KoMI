@@ -59,21 +59,24 @@ export const getSeriesMatch = (search, list) => {
   return series;
 };
 
-const getStatus = (input = '') => {
+export const getStatus = (input = '') => {
   let status = input;
   switch (input.toUpperCase()) {
-    case 'FINISHED': // AL & Kitsu
+    case 'FINISHED': // AL, Kitsu && MAL
       status = 'ENDED';
       break;
     case 'RELEASING': // AL
     case 'CURRENT': // Kitsu
+    case 'PUBLISHING': // MAL
       status = 'ONGOING';
       break;
     case 'ABANDONED':
+    case 'DISCONTINUED': // MAL
       // Not supported by AL & Kitsu
       status = 'ABANDONED';
       break;
     case 'HIATUS':
+    case 'ON HIATUS': // MAL
       // Not supported by AL & Kitsu
       status = 'HIATUS';
       break;
@@ -192,6 +195,34 @@ export const mapKitsuSearch = (kitsuList) => kitsuList.map((series) => ({
   publisher: undefined,
   source: CONSTANTS.KITSU,
   siteUrl: xss(`https://kitsu.io/manga/${series?.attributes?.slug || series?.id || ''}`, {
+    whiteList: [], // empty, means filter out all tags
+    stripIgnoreTag: true, // filter out all HTML not in the whitelist
+    stripIgnoreTagBody: ['script'], // the script tag is a special case, we need to filter out its content
+  }),
+}));
+
+export const mapMALSearch = (malList) => malList.map((series) => ({
+  id: series?.mal_id,
+  title: {
+    romaji: undefined,
+    english: series?.title,
+    native: undefined,
+  },
+  description: series?.synopsis,
+  status: undefined,
+  coverImage: {
+    extraLarge: undefined,
+    large: series?.image_url,
+    medium: undefined,
+    small: undefined,
+  },
+  genres: [],
+  synonyms: [],
+  tags: [],
+  ageRating: undefined,
+  publisher: undefined,
+  source: CONSTANTS.MAL,
+  siteUrl: xss(series?.url || '', {
     whiteList: [], // empty, means filter out all tags
     stripIgnoreTag: true, // filter out all HTML not in the whitelist
     stripIgnoreTagBody: ['script'], // the script tag is a special case, we need to filter out its content
