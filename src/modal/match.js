@@ -32,7 +32,7 @@ const Match = () => {
     },
     matchesList: {
       height: 350,
-      overflowY: 'scroll',
+      overflowY: 'auto',
     },
   }));
 
@@ -108,7 +108,7 @@ const Match = () => {
                         </p>
                       </>
                     )}
-                  {selectedSeries.synonyms && selectedSeries.synonyms?.length
+                  {selectedSeries.synonyms && selectedSeries.synonyms?.length > 0
                     && (
                       <>
                         <p>
