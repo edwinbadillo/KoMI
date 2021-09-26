@@ -30,6 +30,10 @@ const Match = () => {
     OpenInNewIcon: {
       fontSize: 'medium',
     },
+    matchesList: {
+      height: 350,
+      overflowY: 'scroll',
+    },
   }));
 
   const updateMatch = (series) => {
@@ -144,7 +148,7 @@ const Match = () => {
 
       {searchResults && searchResults.length > 0
         && (
-          <Col xs={4}>
+          <Col xs={4} className={classes.matchesList}>
             <h2>Other Matches:</h2>
             <ul>
               {searchResults.map((match) => (

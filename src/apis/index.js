@@ -36,7 +36,17 @@ export const searchKitsu = (search) => (axios({
   url: `https://kitsu.io/api/edge/manga?filter[text]=${search}&page[limit]=10`,
 }));
 
+export const searchMAL = (search) => (axios({
+  method: 'get',
+  url: `https://api.jikan.moe/v3/search/manga?q=${search}&page=1`,
+}));
+
 export const getKitsuGenres = (id) => (axios({
   method: 'get',
   url: `https://kitsu.io/api/edge/manga/${id}/genres`,
+}));
+
+export const getMALInfo = (id) => (axios({
+  method: 'get',
+  url: `https://api.jikan.moe/v3/manga/${id}`,
 }));

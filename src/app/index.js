@@ -6,6 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { getCookie } from '../helpers';
 import Anilist from '../anilist';
 import Kitsu from '../kitsu';
+import MAL from '../mal';
 import Modal from '../modal';
 
 function App() {
@@ -24,8 +25,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className="App">
-        <Anilist />
-        <Kitsu />
+        {window?.komga?.enabledSources?.aniList && <Anilist />}
+        {window?.komga?.enabledSources?.kitsu && <Kitsu />}
+        {window?.komga?.enabledSources?.myAnimeList && <MAL />}
         <Modal />
       </div>
     </ThemeProvider>
